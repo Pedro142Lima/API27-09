@@ -1,10 +1,18 @@
 import con from './connection.js'
 
 
-export  async function Buscar (placa) {
+export  async function Buscar (carro) {
     const comando = 'select * from tb_vrum where placa = ?'
     
-    let resposta = await con.query(comando, [placa]);
+    let resposta = await con.query(comando, [carro]);
+    let registros = resposta[0]
+    return registros;
+}
+
+export  async function BuscarAll () {
+    const comando = 'select * from tb_vrum'
+    
+    let resposta = await con.query(comando);
     let registros = resposta[0]
     return registros;
 }
@@ -33,11 +41,11 @@ return info.affectedRows;
 export async function modificarCarro(vrum, idcarro){
     let comando = `
     update tb_vrum 
-    set placa = ?
+    set modelo = ?, ano = ?, marca = ?, cor = ?, placa = ?
     where id = ?
     `
 
-    let resposta = await con.query(comando, [vrum.placa, idcarro])
+    let resposta = await con.query(comando, [vrum.modelo,vrum.ano,vrum.marca,vrum.cor,vrum.placa, idcarro])
 
     let info = resposta[0]
     return info.affectedRows;

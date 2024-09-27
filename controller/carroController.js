@@ -2,11 +2,11 @@ import * as bd from '../repository/carroRepository.js';
 import { Router } from 'express';
 const endpoints = Router()
 
-endpoints.get( '/buscar/:placa', async (req, resp) => {
+endpoints.get('/buscar/:placa', async (req, resp) => {
 try {
-    let placa = req.params.placa
+    let carro = req.params.placa
 
-    let consultaFeita = await bd.Buscar(placa)
+    let consultaFeita = await bd.Buscar(carro)
 
     resp.send(consultaFeita)
 } catch (error) {
@@ -15,6 +15,19 @@ try {
     })
 }
 })
+
+endpoints.get('/buscarAll', async (req, resp) => {
+    try {
+    
+        let consultaFeita = await bd.BuscarAll()
+    
+        resp.send(consultaFeita)
+    } catch (error) {
+        resp.status(400).send({
+            error: error.message
+        })
+    }
+    })
 
 
 endpoints.post ( '/inserir', async (req,resp ) => {
